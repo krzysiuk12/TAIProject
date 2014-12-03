@@ -3,9 +3,11 @@ package pl.edu.agh.domain;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -111,11 +113,12 @@ public class Event extends BaseObject {
 
     @Transient
     public double getEventRating() {
+
         double rating = 0.0;
         for(Comment comment : getComments()) {
             rating += comment.getRating().getValue();
         }
-        return rating / getComments().size();
+        return getComments().size() > 0 ? rating / getComments().size() : 0.0;
     }
 
     @Transient

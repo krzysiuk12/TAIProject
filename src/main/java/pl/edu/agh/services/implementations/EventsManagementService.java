@@ -45,6 +45,8 @@ public class EventsManagementService implements IEventsManagementService {
     @Transactional
     public void addNewComment(Event event, Comment comment) {
         comment.setEvent(event);
+        comment.setCommenter(usersManagementService.addNewUser("user", "password", UserGroup.CREATOR));
+        comment.setPrivateComment(true);
         eventManagementRepository.saveOrUpdate(comment);
     }
 

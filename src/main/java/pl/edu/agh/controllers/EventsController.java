@@ -15,9 +15,8 @@ import pl.edu.agh.services.interfaces.IEventsManagementService;
 import pl.edu.agh.services.interfaces.ITwitterService;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 /**
  * Created by krzysztofczernek on 25/11/14.
@@ -28,8 +27,6 @@ public class EventsController {
 
     @Autowired
     private IEventsManagementService eventsManagementService;
-    @Autowired
-    private IUsersManagementService usersManagementService;
     @Autowired
     private ITwitterService twitterService;
 
@@ -66,6 +63,7 @@ public class EventsController {
         model.addAttribute("comments", eventsManagementService.getEventComments(event));
         model.addAttribute("comment", new Comment());
         model.addAttribute("event", event);
+        model.addAttribute("ratings", Rating.values());
 
         Twitter twitter = twitterService.getTwitterTemplate();
         String searchQuery = event.getHashtagsString(" OR ");
@@ -79,13 +77,8 @@ public class EventsController {
     @Transactional
     public String addEventComment(@PathVariable("eventId") Long eventId, @ModelAttribute("comment") Comment comment) {
 
-        Event event = eventsManagementService.getEventById(eventId);
-        comment.setCommenter(usersManagementService.addNewUser("user", "password", UserGroup.CREATOR));
-        comment.setRating(Rating.OK);
-        comment.setPrivateComment(true);
+        eventsManagementService.addNewComment(eventsManagementService.getEventById(eventId), comment);
 
-        eventsManagementService.addNewComment(event, comment);
-
-        return "redirect:/events/" + event.getId();
+        return "redirect:/events/" + eventId;
     }
 }

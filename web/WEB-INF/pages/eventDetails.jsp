@@ -42,7 +42,7 @@
             <tr>
               <td>${comment.commenter.login}</td>
               <td>${comment.comment}</td>
-              <td>${comment.rating}</td>
+              <td>${comment.rating.value}</td>
             </tr>
           </c:forEach>
           </tbody>
@@ -55,6 +55,12 @@
         <form:label cssClass="control-label" path="comment">Comment:</form:label>
         <div class="controls">
           <form:input path="comment"/>
+        </div>
+      </div>
+      <div class="control-group">
+        <form:label cssClass="control-label" path="rating">Rating:</form:label>
+        <div class="controls">
+          <form:select path="rating" items="${ratings}" itemLabel="value"/>
         </div>
       </div>
       <div class="control-group">

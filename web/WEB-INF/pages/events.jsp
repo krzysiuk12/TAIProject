@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="control-group">
-        <label cssClass="control-label">Hashtags:</label>
+        <label cssClass="control-label">Hashtags (with # sign, separated by spaces):</label>
         <div class="controls">
           <input name="hashtagsString"/>
         </div>
