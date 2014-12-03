@@ -7,33 +7,42 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.twitter.api.Tweet;
+import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pl.edu.agh.domain.UserGroup;
+import pl.edu.agh.services.interfaces.ITwitterService;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Random;
+import java.util.List;
 
 @Controller
 public class MainController {
 
     private IUsersManagementService usersManagementService;
+    private ITwitterService twitterService;
 
     @Autowired
-    public MainController(IUsersManagementService usersManagementService) {
+    public MainController(IUsersManagementService usersManagementService, ITwitterService twitterService) {
         this.usersManagementService = usersManagementService;
+        this.twitterService = twitterService;
     }
 
     @RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
 	public ModelAndView defaultPage() {
 
 		ModelAndView model = new ModelAndView();
-        usersManagementService.addNewUser("TestLogin" + Math.abs(new Random().nextInt()), "123456", UserGroup.CREATOR);
-		model.addObject("title", "Spring Security + Hibernate Example");
+        //usersManagementService.addNewUser("TestLogin" + Math.abs(new Random().nextInt()), "123456", UserGroup.CREATOR);
+		Twitter twitter = twitterService.getTwitterTemplate();
+        List<Tweet> tweets = twitter.timelineOperations().getHomeTimeline();
+        for(Tweet tweet : tweets) {
+            System.out.println("Tweet: " + tweet.getFromUser() + " - " + tweet.getText());
+        }
+        model.addObject("title", "Spring Security + Hibernate Example");
 		model.addObject("message", "This is default page!");
 		model.setViewName("hello");
 		return model;
