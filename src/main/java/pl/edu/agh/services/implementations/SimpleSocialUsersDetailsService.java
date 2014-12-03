@@ -1,6 +1,5 @@
 package pl.edu.agh.services.implementations;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +15,6 @@ public class SimpleSocialUsersDetailsService implements ISocialUsersDetailsManag
 
     private UserDetailsService userDetailsService;
 
-    @Autowired
     public SimpleSocialUsersDetailsService(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }

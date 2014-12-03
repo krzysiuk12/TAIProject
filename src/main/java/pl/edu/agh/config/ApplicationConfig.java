@@ -22,7 +22,7 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan({"pl.edu.agh.*"})
-@Import({ProductionDataSource.class, TestDataSource.class})
+@Import({ProductionDataSource.class, TestDataSource.class, SpringSocialConfig.class, SecurityApplicationConfig.class})
 @Profile(value = {"default", "test"})
 public class ApplicationConfig {
 

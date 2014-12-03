@@ -10,11 +10,12 @@ import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurer;
 import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
+import pl.edu.agh.services.implementations.AccountConnectionSignUpService;
+import pl.edu.agh.services.interfaces.IUsersManagementService;
 
 import javax.sql.DataSource;
 
@@ -30,7 +31,7 @@ public class SpringSocialConfig implements SocialConfigurer {
     private DataSource dataSource;
 
     @Autowired
-    private ConnectionSignUp connectionSignUp;
+    private IUsersManagementService usersManagementService;
 
     @Override
     public void addConnectionFactories(ConnectionFactoryConfigurer connectionFactoryConfigurer, Environment environment) {
@@ -46,8 +47,8 @@ public class SpringSocialConfig implements SocialConfigurer {
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource, connectionFactoryLocator, Encryptors.noOpText());
-        repository.setConnectionSignUp(connectionSignUp);
-        return null;
+        repository.setConnectionSignUp(new AccountConnectionSignUpService(usersManagementService));
+        return repository;
     }
 
 }
