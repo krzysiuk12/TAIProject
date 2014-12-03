@@ -1,17 +1,24 @@
 package pl.edu.agh.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.twitter.api.SearchResults;
+import org.springframework.social.twitter.api.Tweet;
+import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.domain.Comment;
 import pl.edu.agh.domain.Event;
 import pl.edu.agh.domain.UserAccount;
 import pl.edu.agh.domain.UserGroup;
 import pl.edu.agh.services.implementations.EventsManagementService;
 import pl.edu.agh.services.interfaces.IEventsManagementService;
+import pl.edu.agh.services.interfaces.ITwitterService;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
+
+import java.util.List;
 
 /**
  * Created by krzysztofczernek on 25/11/14.
@@ -24,6 +31,8 @@ public class EventsController {
     private IEventsManagementService eventsManagementService;
     @Autowired
     private IUsersManagementService usersManagementService;
+    @Autowired
+    private ITwitterService twitterService;
 
     @RequestMapping(method = RequestMethod.GET)
     @Transactional
@@ -49,5 +58,31 @@ public class EventsController {
 
         eventsManagementService.removeEvent(eventsManagementService.getEventById(eventId));
         return "redirect:/events";
+    }
+
+    @RequestMapping(value = "{eventId}", method = RequestMethod.GET)
+    public String showEventDetails(ModelMap model, @PathVariable("eventId") Long eventId) {
+
+        Event event = eventsManagementService.getEventById(eventId);
+//        model.addAttribute("comments", eventsManagementService.getEventComments(event)); // TODO
+        model.addAttribute("comment", new Comment());
+        model.addAttribute("event", event);
+
+        Twitter twitter = twitterService.getTwitterTemplate();
+        String searchQuery = "#hashtag"; // TODO
+        SearchResults results = twitter.searchOperations().search(searchQuery);
+        model.addAttribute("tweets", results.getTweets());
+
+        return "eventDetails";
+    }
+
+    @RequestMapping(value = "{eventId}/comments", method = RequestMethod.POST)
+    @Transactional
+    public String addEventComment(@PathVariable("eventId") Long eventId, @ModelAttribute("comment") Comment comment) {
+
+        Event event = eventsManagementService.getEventById(eventId);
+        eventsManagementService.addNewComment(event, comment);
+
+        return "redirect:/events/" + event.getId() + "/comments";
     }
 }

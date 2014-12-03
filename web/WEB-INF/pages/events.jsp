@@ -10,9 +10,6 @@
 
   <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link href="bootstrap.css" rel="stylesheet">
-  <link href="bootstrap-responsive.css" rel="stylesheet">
 </head>
 
 <body>
@@ -20,8 +17,12 @@
 <div class="container">
   <div class="row">
     <div class="span8 offset2">
-      <h1>Events</h1>
-      <form:form method="POST" action="/events" modelAttribute="event" class="form-horizontal">
+
+      <a href="/" method="get">Homepage</a>
+
+      <h2>Add event</h2>
+
+    <form:form method="POST" action="/events" modelAttribute="event" class="form-horizontal">
       <div class="control-group">
         <form:label cssClass="control-label" path="title">Title:</form:label>
         <div class="controls">
@@ -48,7 +49,7 @@
       </div>
 
       <c:if test="${!empty events}">
-        <h3>Events</h3>
+        <h2>Events</h2>
         <table class="table table-bordered table-striped">
           <thead>
           <tr>
@@ -65,6 +66,9 @@
               <td>${event.description}</td>
               <td>${event.date}</td>
               <td>${event.url}</td>
+              <td>
+                <a href="/events/${event.id}" method="get">Details</a>
+              </td>
               <td>
                 <form action="/events/delete/${event.id}" method="post"><input type="submit" class="btn btn-danger btn-mini" value="Delete"/></form>
               </td>

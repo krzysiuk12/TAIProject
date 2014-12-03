@@ -24,4 +24,6 @@ public interface IEventsManagementService {
     public void removeEvent(Event event);
 
     public void updateEvent(Event event);
+
+    public List<Comment> getEventComments(Event event);
 }

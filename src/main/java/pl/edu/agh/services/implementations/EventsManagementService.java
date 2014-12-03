@@ -10,6 +10,7 @@ import pl.edu.agh.repositories.interfaces.IEventManagementRepository;
 import pl.edu.agh.services.interfaces.IEventsManagementService;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -55,6 +56,12 @@ public class EventsManagementService implements IEventsManagementService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<Comment> getEventComments(Event event) {
+        return event.getComments();
+    }
+
+    @Override
+    @Transactional
     public Event getEventById(Long id) {
         return eventManagementRepository.getById(id);
     }

@@ -7,6 +7,7 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
@@ -24,12 +25,10 @@ import java.util.List;
 public class MainController {
 
     private IUsersManagementService usersManagementService;
-    private ITwitterService twitterService;
 
     @Autowired
     public MainController(IUsersManagementService usersManagementService, ITwitterService twitterService) {
         this.usersManagementService = usersManagementService;
-        this.twitterService = twitterService;
     }
 
     @RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
@@ -37,11 +36,7 @@ public class MainController {
 
 		ModelAndView model = new ModelAndView();
 //        usersManagementService.addNewUser("TestLogin" + Math.abs(new Random().nextInt()), "123456", UserGroup.CREATOR);
-		Twitter twitter = twitterService.getTwitterTemplate();
-        List<Tweet> tweets = twitter.timelineOperations().getHomeTimeline();
-        for(Tweet tweet : tweets) {
-            System.out.println("Tweet: " + tweet.getFromUser() + " - " + tweet.getText());
-        }
+
         model.addObject("title", "Spring Security + Hibernate Example");
 		model.addObject("message", "This is default page!");
 		model.setViewName("hello");
