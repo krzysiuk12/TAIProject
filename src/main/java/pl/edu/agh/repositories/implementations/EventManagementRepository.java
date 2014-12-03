@@ -27,12 +27,15 @@ public class EventManagementRepository extends BaseHibernateRepository implement
     public List<Event> getAllCreatorEvents(UserAccount creator) {
         Criteria criteria = getCurrentSession().createCriteria(Event.class);
         criteria.add(Restrictions.eq("creator", creator));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return criteria.list();
     }
 
     @Override
     public List<Event> getAllEvents() {
-        return getCurrentSession().createCriteria(Event.class).list();
+        Criteria criteria = getCurrentSession().createCriteria(Event.class);
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return criteria.list();
     }
 
     @Override
@@ -42,7 +45,10 @@ public class EventManagementRepository extends BaseHibernateRepository implement
 
     @Override
     public Event getById(Long id) {
-        return (Event) getCurrentSession().get(Event.class, id);
+        Criteria criteria = getCurrentSession().createCriteria(Event.class);
+        criteria.add(Restrictions.eq("id", id));
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        return (Event) criteria.list().get(0);
     }
 
     @Override
