@@ -8,7 +8,7 @@ import pl.edu.agh.domain.UserGroup;
  */
 public interface IUsersManagementService {
 
-    public void addNewUser(String login, String password, UserGroup userGroup);
+    public UserAccount addNewUser(String login, String password, UserGroup userGroup);
 
     public UserAccount getUserAccountById(Long id);
 

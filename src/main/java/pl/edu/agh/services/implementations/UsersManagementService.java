@@ -26,13 +26,14 @@ public class UsersManagementService implements IUsersManagementService {
 
     @Override
     @Transactional
-    public void addNewUser(String login, String password, UserGroup userGroup) {
+    public UserAccount addNewUser(String login, String password, UserGroup userGroup) {
         UserAccount userAccount = new UserAccount();
         userAccount.setLogin(login);
         userAccount.setPassword(passwordEncoder.encode(password));
         userAccount.setEnabled(true);
         userAccount.setUserGroup(userGroup);
         usersManagementRepository.saveOrUpdate(userAccount);
+        return userAccount;
     }
 
     @Override

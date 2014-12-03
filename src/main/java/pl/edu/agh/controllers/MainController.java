@@ -36,7 +36,7 @@ public class MainController {
 	public ModelAndView defaultPage() {
 
 		ModelAndView model = new ModelAndView();
-        //usersManagementService.addNewUser("TestLogin" + Math.abs(new Random().nextInt()), "123456", UserGroup.CREATOR);
+//        usersManagementService.addNewUser("TestLogin" + Math.abs(new Random().nextInt()), "123456", UserGroup.CREATOR);
 		Twitter twitter = twitterService.getTwitterTemplate();
         List<Tweet> tweets = twitter.timelineOperations().getHomeTimeline();
         for(Tweet tweet : tweets) {

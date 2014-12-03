@@ -23,7 +23,6 @@ public class EventManagementRepository extends BaseHibernateRepository implement
         super(sessionFactory);
     }
 
-
     @Override
     public List<Event> getAllCreatorEvents(UserAccount creator) {
         Criteria criteria = getCurrentSession().createCriteria(Event.class);
