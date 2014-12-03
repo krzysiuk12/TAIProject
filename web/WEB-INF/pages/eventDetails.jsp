@@ -26,14 +26,15 @@
         <table class="table table-bordered table-striped">
           <thead>
           <tr>
+            <th>Author</th>
             <th>Comment</th>
             <th>Rating</th>
-            <th>Private</th>
           </tr>
           </thead>
           <tbody>
           <c:forEach items="${comments}" var="comment">
             <tr>
+              <td>${comment.commenter.login}</td>
               <td>${comment.comment}</td>
               <td>${comment.rating}</td>
             </tr>

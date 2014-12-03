@@ -9,10 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.domain.Comment;
-import pl.edu.agh.domain.Event;
-import pl.edu.agh.domain.UserAccount;
-import pl.edu.agh.domain.UserGroup;
+import pl.edu.agh.domain.*;
 import pl.edu.agh.services.implementations.EventsManagementService;
 import pl.edu.agh.services.interfaces.IEventsManagementService;
 import pl.edu.agh.services.interfaces.ITwitterService;
@@ -61,10 +58,11 @@ public class EventsController {
     }
 
     @RequestMapping(value = "{eventId}", method = RequestMethod.GET)
+    @Transactional(readOnly = true)
     public String showEventDetails(ModelMap model, @PathVariable("eventId") Long eventId) {
 
         Event event = eventsManagementService.getEventById(eventId);
-//        model.addAttribute("comments", eventsManagementService.getEventComments(event)); // TODO
+        model.addAttribute("comments", eventsManagementService.getEventComments(event));
         model.addAttribute("comment", new Comment());
         model.addAttribute("event", event);
 
@@ -81,8 +79,12 @@ public class EventsController {
     public String addEventComment(@PathVariable("eventId") Long eventId, @ModelAttribute("comment") Comment comment) {
 
         Event event = eventsManagementService.getEventById(eventId);
+        comment.setCommenter(usersManagementService.addNewUser("user", "password", UserGroup.CREATOR));
+        comment.setRating(Rating.OK);
+        comment.setPrivateComment(true);
+
         eventsManagementService.addNewComment(event, comment);
 
-        return "redirect:/events/" + event.getId() + "/comments";
+        return "redirect:/events/" + event.getId();
     }
 }

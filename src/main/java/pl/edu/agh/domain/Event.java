@@ -99,7 +99,7 @@ public class Event extends BaseObject {
         this.hashTags = hashTags;
     }
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event")
     @Fetch(FetchMode.SELECT)
     public List<Comment> getComments() {
         return comments;
@@ -112,7 +112,7 @@ public class Event extends BaseObject {
     public double getEventRating() {
         double rating = 0.0;
         for(Comment comment : getComments()) {
-            rating = comment.getRating().getValue();
+            rating += comment.getRating().getValue();
         }
         return rating / getComments().size();
     }
