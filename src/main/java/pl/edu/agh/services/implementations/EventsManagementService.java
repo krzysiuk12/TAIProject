@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.edu.agh.domain.Comment;
 import pl.edu.agh.domain.Event;
 import pl.edu.agh.domain.UserAccount;
+import pl.edu.agh.domain.UserGroup;
 import pl.edu.agh.repositories.interfaces.IEventManagementRepository;
 import pl.edu.agh.services.interfaces.IEventsManagementService;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
@@ -32,6 +33,11 @@ public class EventsManagementService implements IEventsManagementService {
     @Override
     @Transactional
     public void addNewEvent(Event event) {
+        event.setCreator(usersManagementService.addNewUser("user", "password", UserGroup.CREATOR));
+
+        event.setUrl("none");
+        eventManagementRepository.saveOrUpdate(event);
+        event.setUrl("/events/" + event.getId());
         eventManagementRepository.saveOrUpdate(event);
     }
 

@@ -32,7 +32,6 @@ public class EventManagementRepository extends BaseHibernateRepository implement
 
     @Override
     public List<Event> getAllEvents() {
-        Criteria criteria = getCurrentSession().createCriteria(Event.class);
         return getCurrentSession().createCriteria(Event.class).list();
     }
 

@@ -2,6 +2,7 @@ package pl.edu.agh.domain;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.List;
@@ -89,7 +90,7 @@ public class Event extends BaseObject {
         this.url = url;
     }
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "HASHTAGS", joinColumns = @JoinColumn(name = "ID_EVENT"), foreignKey = @ForeignKey(name = "FK_EVENT_HASHTAGS_HASHTAG"))
     @Column(name = "HASHTAG")
     public Set<String> getHashTags() {
@@ -115,5 +116,14 @@ public class Event extends BaseObject {
             rating += comment.getRating().getValue();
         }
         return rating / getComments().size();
+    }
+
+    @Transient
+    public String getHashtagsString() {
+        String hashtags = "";
+        for (String hashtag : getHashTags()) {
+            hashtags += hashtag + " ";
+        }
+        return hashtags;
     }
 }

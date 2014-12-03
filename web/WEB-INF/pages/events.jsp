@@ -42,6 +42,12 @@
         </div>
       </div>
       <div class="control-group">
+        <label cssClass="control-label">Hashtags:</label>
+        <div class="controls">
+          <input name="hashtagsString"/>
+        </div>
+      </div>
+      <div class="control-group">
         <div class="controls">
           <input type="submit" value="Add Event" class="btn"/>
           </form:form>
@@ -57,6 +63,7 @@
             <th>Description</th>
             <th>Date</th>
             <th>URL</th>
+            <th>Hashtags</th>
           </tr>
           </thead>
           <tbody>
@@ -66,6 +73,7 @@
               <td>${event.description}</td>
               <td>${event.date}</td>
               <td>${event.url}</td>
+              <td>${event.getHashtagsString()}</td>
               <td>
                 <a href="/events/${event.id}" method="get">Details</a>
               </td>

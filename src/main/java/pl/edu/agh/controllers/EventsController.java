@@ -15,6 +15,8 @@ import pl.edu.agh.services.interfaces.IEventsManagementService;
 import pl.edu.agh.services.interfaces.ITwitterService;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -41,12 +43,11 @@ public class EventsController {
 
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
-    public String addEvent(@ModelAttribute("event") Event event) {
+    public String addEvent(@ModelAttribute("event") Event event, @RequestParam String hashtagsString) {
+        HashSet<String> hashtags = new HashSet<String>(Arrays.asList(hashtagsString.split(" ")));
+        event.setHashTags(hashtags);
 
-        event.setCreator(usersManagementService.addNewUser("user", "password", UserGroup.CREATOR));
-        event.setUrl("http://newurl");
         eventsManagementService.addNewEvent(event);
-
         return "redirect:/events";
     }
 
