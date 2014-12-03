@@ -37,37 +37,45 @@ public class EventsManagementService implements IEventsManagementService {
     @Override
     @Transactional
     public void addNewComment(Event event, Comment comment) {
-//        List<Comment> comments = event.getComments();
-//        comments.add(comment);
-//        eventManagementRepository.saveOrUpdate(event);
-
-//        TODO - saving comment to database
+        comment.setEvent(event);
+        eventManagementRepository.saveOrUpdate(comment);
     }
 
     @Override
     @Transactional
     public void updateEvent(Event event) {
-        eventManagementRepository.saveOrUpdate(event);
+        Event toUpdateEvent = eventManagementRepository.getById(event.getId());
+        toUpdateEvent.setTitle(event.getTitle());
+        toUpdateEvent.setDescription(event.getDescription());
+        toUpdateEvent.setDate(event.getDate());
+        toUpdateEvent.setHashTags(event.getHashTags());
+        toUpdateEvent.setUrl(event.getUrl());
+        eventManagementRepository.saveOrUpdate(toUpdateEvent);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Event getEventById(Long id) {
         return eventManagementRepository.getById(id);
     }
 
     @Override
+    @Transactional
     public void removeEvent(Event event) {
+        for(Comment comment : event.getComments()) {
+            eventManagementRepository.removeComment(comment);
+        }
         eventManagementRepository.removeEvent(event);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> getAllCreatorEvents(UserAccount account) {
         return eventManagementRepository.getAllCreatorEvents(account);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Event> getAllEvents() {
         return eventManagementRepository.getAllEvents();
     }

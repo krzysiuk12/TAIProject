@@ -107,4 +107,13 @@ public class Event extends BaseObject {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    @Transient
+    public double getEventRating() {
+        double rating = 0.0;
+        for(Comment comment : getComments()) {
+            rating = comment.getRating().getValue();
+        }
+        return rating / getComments().size();
+    }
 }

@@ -5,7 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+import pl.edu.agh.domain.Comment;
 import pl.edu.agh.domain.Event;
 import pl.edu.agh.domain.UserAccount;
 import pl.edu.agh.repositories.interfaces.IEventManagementRepository;
@@ -25,7 +25,6 @@ public class EventManagementRepository extends BaseHibernateRepository implement
 
 
     @Override
-    @Transactional
     public List<Event> getAllCreatorEvents(UserAccount creator) {
         Criteria criteria = getCurrentSession().createCriteria(Event.class);
         criteria.add(Restrictions.eq("creator", creator));
@@ -33,29 +32,28 @@ public class EventManagementRepository extends BaseHibernateRepository implement
     }
 
     @Override
-    @Transactional
     public List<Event> getAllEvents() {
         Criteria criteria = getCurrentSession().createCriteria(Event.class);
-        return criteria.list();
+        return getCurrentSession().createCriteria(Event.class).list();
     }
 
     @Override
-    @Transactional
     public void saveOrUpdate(Object entity) {
         getCurrentSession().saveOrUpdate(entity);
     }
 
     @Override
-    @Transactional
     public Event getById(Long id) {
-
         return (Event) getCurrentSession().get(Event.class, id);
     }
 
     @Override
-    @Transactional
     public void removeEvent(Event event) {
         getCurrentSession().delete(event);
     }
 
+    @Override
+    public void removeComment(Comment comment) {
+        getCurrentSession().delete(comment);
+    }
 }

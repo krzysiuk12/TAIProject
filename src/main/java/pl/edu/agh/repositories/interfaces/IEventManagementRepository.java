@@ -1,5 +1,6 @@
 package pl.edu.agh.repositories.interfaces;
 
+import pl.edu.agh.domain.Comment;
 import pl.edu.agh.domain.Event;
 import pl.edu.agh.domain.UserAccount;
 
@@ -13,5 +14,6 @@ public interface IEventManagementRepository extends IBaseHibernateRepository<Eve
     public List<Event> getAllCreatorEvents(UserAccount creator);
     public List<Event> getAllEvents();
     public void removeEvent(Event event);
+    public void removeComment(Comment comment);
 
 }

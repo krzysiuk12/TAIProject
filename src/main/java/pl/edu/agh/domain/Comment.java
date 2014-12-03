@@ -61,7 +61,7 @@ public class Comment extends BaseObject {
         this.rating = rating;
     }
 
-    @Column(name = "COMMENT", length = 500, nullable = false)
+    @Column(name = "COMMENT", length = 1000, nullable = false)
     public String getComment() {
         return comment;
     }
