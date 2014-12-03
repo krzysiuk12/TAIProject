@@ -42,7 +42,7 @@
         </div>
       </div>
       <div class="control-group">
-        <label cssClass="control-label">Hashtags (with # sign, separated by spaces):</label>
+        <label cssClass="control-label">Hashtags (with # signs, separated by spaces):</label>
         <div class="controls">
           <input name="hashtagsString"/>
         </div>
@@ -64,6 +64,7 @@
             <th>Date</th>
             <th>URL</th>
             <th>Hashtags</th>
+            <th>Rating</th>
           </tr>
           </thead>
           <tbody>
@@ -74,6 +75,7 @@
               <td>${event.date}</td>
               <td>${event.url}</td>
               <td>${event.getHashtagsString(", ")}</td>
+              <td>${event.getEventRating()}</td>
               <td>
                 <a href="/events/${event.id}" method="get">Details</a>
               </td>

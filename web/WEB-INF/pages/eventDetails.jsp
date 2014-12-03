@@ -6,7 +6,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Event comments</title>
+  <title>${event.title} - event details</title>
 
   <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,6 +61,12 @@
         <form:label cssClass="control-label" path="rating">Rating:</form:label>
         <div class="controls">
           <form:select path="rating" items="${ratings}" itemLabel="value"/>
+        </div>
+      </div>
+      <div class="control-group">
+        <form:label cssClass="control-label" path="privateComment">Private?</form:label>
+        <div class="controls">
+          <form:checkbox path="privateComment"/>
         </div>
       </div>
       <div class="control-group">

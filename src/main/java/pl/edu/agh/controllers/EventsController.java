@@ -1,6 +1,7 @@
 package pl.edu.agh.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.twitter.api.SearchParameters;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
@@ -65,10 +66,12 @@ public class EventsController {
         model.addAttribute("event", event);
         model.addAttribute("ratings", Rating.values());
 
-        Twitter twitter = twitterService.getTwitterTemplate();
-        String searchQuery = event.getHashtagsString(" OR ");
-        SearchResults results = twitter.searchOperations().search(searchQuery);
-        model.addAttribute("tweets", results.getTweets());
+        if (event.getHashTags().size() > 0) {
+            Twitter twitter = twitterService.getTwitterTemplate();
+            String searchQuery = event.getHashtagsString(" OR ");
+            SearchResults results = twitter.searchOperations().search(searchQuery, 10);
+            model.addAttribute("tweets", results.getTweets());
+        }
 
         return "eventDetails";
     }
@@ -77,8 +80,14 @@ public class EventsController {
     @Transactional
     public String addEventComment(@PathVariable("eventId") Long eventId, @ModelAttribute("comment") Comment comment) {
 
-        eventsManagementService.addNewComment(eventsManagementService.getEventById(eventId), comment);
+        Event event = eventsManagementService.getEventById(eventId);
 
-        return "redirect:/events/" + eventId;
+        if (comment.isPrivateComment()) {
+            eventsManagementService.addNewComment(event, comment);
+        } else {
+            eventsManagementService.publishComment(event, comment);
+        }
+
+        return "redirect:/events/" + event.getId();
     }
 }

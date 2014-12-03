@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.*;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -112,13 +113,13 @@ public class Event extends BaseObject {
     }
 
     @Transient
-    public double getEventRating() {
+    public String getEventRating() {
 
         double rating = 0.0;
         for(Comment comment : getComments()) {
             rating += comment.getRating().getValue();
         }
-        return getComments().size() > 0 ? rating / getComments().size() : 0.0;
+        return new DecimalFormat("0.00").format(getComments().size() > 0 ? rating / getComments().size() : 0.0);
     }
 
     @Transient
