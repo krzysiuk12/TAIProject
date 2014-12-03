@@ -73,7 +73,7 @@
               <td>${event.description}</td>
               <td>${event.date}</td>
               <td>${event.url}</td>
-              <td>${event.getHashtagsString()}</td>
+              <td>${event.getHashtagsString(", ")}</td>
               <td>
                 <a href="/events/${event.id}" method="get">Details</a>
               </td>

@@ -68,7 +68,7 @@ public class EventsController {
         model.addAttribute("event", event);
 
         Twitter twitter = twitterService.getTwitterTemplate();
-        String searchQuery = "#hashtag"; // TODO
+        String searchQuery = event.getHashtagsString(" OR ");
         SearchResults results = twitter.searchOperations().search(searchQuery);
         model.addAttribute("tweets", results.getTweets());
 

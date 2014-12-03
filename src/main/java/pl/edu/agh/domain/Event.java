@@ -119,11 +119,15 @@ public class Event extends BaseObject {
     }
 
     @Transient
-    public String getHashtagsString() {
+    public String getHashtagsString(String separator) {
+        if (getHashTags().size() == 0) {
+            return "";
+        }
+
         String hashtags = "";
         for (String hashtag : getHashTags()) {
-            hashtags += hashtag + " ";
+            hashtags += hashtag + separator;
         }
-        return hashtags;
+        return hashtags.substring(0, hashtags.length() - separator.length());
     }
 }

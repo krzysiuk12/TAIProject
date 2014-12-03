@@ -21,10 +21,11 @@
       <a href="/events" method="get">Back</a>
 
       <h1>${event.title} - event details</h1>
-      <h2>Description: ${event.description}</h2>
-      <h2>Date: ${event.date}</h2>
-      <h2>Author: ${event.creator.login}</h2>
-      <h2>Rating: ${event.getEventRating()}</h2>
+      <h3>Description: ${event.description}</h3>
+      <h3>Date: ${event.date}</h3>
+      <h3>Author: ${event.creator.login}</h3>
+      <h3>Hashtags: ${event.getHashtagsString(", ")}</h3>
+      <h3>Rating: ${event.getEventRating()}</h3>
 
       <c:if test="${!empty comments}">
         <h2>Comments</h2>
