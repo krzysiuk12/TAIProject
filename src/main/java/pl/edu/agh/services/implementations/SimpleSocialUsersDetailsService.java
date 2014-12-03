@@ -7,12 +7,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.social.security.SocialUser;
 import org.springframework.social.security.SocialUserDetails;
-import org.springframework.social.security.SocialUserDetailsService;
+import pl.edu.agh.services.interfaces.ISocialUsersDetailsManagementService;
 
 /**
  * Created by Krzysztof Kicinger on 2014-12-03.
  */
-public class SimpleSocialUsersDetailsService implements SocialUserDetailsService {
+public class SimpleSocialUsersDetailsService implements ISocialUsersDetailsManagementService {
 
     private UserDetailsService userDetailsService;
 

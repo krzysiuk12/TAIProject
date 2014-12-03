@@ -1,23 +1,25 @@
 package pl.edu.agh.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.twitter.api.SearchParameters;
 import org.springframework.social.twitter.api.SearchResults;
-import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.edu.agh.domain.*;
-import pl.edu.agh.services.implementations.EventsManagementService;
+import pl.edu.agh.domain.Comment;
+import pl.edu.agh.domain.Event;
+import pl.edu.agh.domain.Rating;
+import pl.edu.agh.domain.UserAccount;
 import pl.edu.agh.services.interfaces.IEventsManagementService;
 import pl.edu.agh.services.interfaces.ITwitterService;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Created by krzysztofczernek on 25/11/14.
@@ -26,6 +28,8 @@ import java.util.*;
 @RequestMapping(value = "/events")
 public class EventsController {
 
+    @Autowired
+    private IUsersManagementService usersManagementService;
     @Autowired
     private IEventsManagementService eventsManagementService;
     @Autowired
@@ -41,11 +45,11 @@ public class EventsController {
 
     @RequestMapping(method = RequestMethod.POST)
     @Transactional
-    public String addEvent(@ModelAttribute("event") Event event, @RequestParam String hashtagsString) {
+    public String addEvent(@ModelAttribute("event") Event event, @RequestParam String hashtagsString, HttpServletRequest request, Principal currentUser, Model model) {
         HashSet<String> hashtags = new HashSet<String>(Arrays.asList(hashtagsString.split(" ")));
         event.setHashTags(hashtags);
-
-        eventsManagementService.addNewEvent(event);
+        UserAccount userAccount = (UserAccount) request.getSession().getAttribute(SocialContollerUtils.SESSION_USER_ACCOUNT);
+        eventsManagementService.addNewEvent(event, userAccount);
         return "redirect:/events";
     }
 
@@ -78,12 +82,13 @@ public class EventsController {
 
     @RequestMapping(value = "{eventId}/comments", method = RequestMethod.POST)
     @Transactional
-    public String addEventComment(@PathVariable("eventId") Long eventId, @ModelAttribute("comment") Comment comment) {
+    public String addEventComment(@PathVariable("eventId") Long eventId, @ModelAttribute("comment") Comment comment, HttpServletRequest request, Principal currentUser, Model model) {
 
         Event event = eventsManagementService.getEventById(eventId);
 
         if (comment.isPrivateComment()) {
-            eventsManagementService.addNewComment(event, comment);
+            UserAccount userAccount = (UserAccount) request.getSession().getAttribute(SocialContollerUtils.SESSION_USER_ACCOUNT);
+            eventsManagementService.addNewComment(event, comment, userAccount);
         } else {
             eventsManagementService.publishComment(event, comment);
         }

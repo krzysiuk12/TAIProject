@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface IEventsManagementService {
 
-    public void addNewEvent(Event event);
+    public void addNewEvent(Event event, UserAccount userAccount);
 
-    public void addNewComment(Event event, Comment comment);
+    public void addNewComment(Event event, Comment comment, UserAccount userAccount);
 
     public Event getEventById(Long id);
 

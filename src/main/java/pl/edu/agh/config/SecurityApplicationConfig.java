@@ -10,7 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import pl.edu.agh.services.interfaces.IUsersAuthorizationManagementService;
+import org.springframework.social.security.SpringSocialConfigurer;
+import pl.edu.agh.services.interfaces.ISocialUsersDetailsManagementService;
+
+import javax.sql.DataSource;
 
 /**
  * Created by Krzysztof Kicinger on 2014-12-03.
@@ -21,11 +24,16 @@ import pl.edu.agh.services.interfaces.IUsersAuthorizationManagementService;
 public class SecurityApplicationConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private IUsersAuthorizationManagementService usersAuthorizationManagementService;
+    private ISocialUsersDetailsManagementService usersAuthorizationManagementService;
+
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(usersAuthorizationManagementService).passwordEncoder(passwordEncoder());
+        auth.jdbcAuthentication()
+            .dataSource(dataSource)
+            .withDefaultSchema();
     }
 
     @Override
@@ -37,7 +45,9 @@ public class SecurityApplicationConfig extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .and().logout().logoutSuccessUrl("/login?logout")
                 .and().csrf()
-                .and().exceptionHandling().accessDeniedPage("/403");
+                .and().exceptionHandling().accessDeniedPage("/403")
+                .and().rememberMe()
+                .and().apply(new SpringSocialConfigurer().postLoginUrl("/").alwaysUsePostLoginUrl(true));;
 
         http.csrf().disable().authorizeRequests();
     }
@@ -47,11 +57,4 @@ public class SecurityApplicationConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    public IUsersAuthorizationManagementService getUsersAuthorizationManagementService() {
-        return usersAuthorizationManagementService;
-    }
-
-    public void setUsersAuthorizationManagementService(IUsersAuthorizationManagementService usersAuthorizationManagementService) {
-        this.usersAuthorizationManagementService = usersAuthorizationManagementService;
-    }
 }
