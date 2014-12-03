@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.agh.domain.UserAccount;
+import pl.edu.agh.domain.UserConnection;
 import pl.edu.agh.domain.UserGroup;
 import pl.edu.agh.repositories.interfaces.IUsersManagementRepository;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
@@ -26,11 +27,12 @@ public class UsersManagementService implements IUsersManagementService {
 
     @Override
     @Transactional
-    public UserAccount addNewUser(String login, String password, UserGroup userGroup) {
+    public UserAccount addNewUser(String firstName, String lastName, String email, String userName, UserGroup userGroup) {
         UserAccount userAccount = new UserAccount();
-        userAccount.setLogin(login);
-        userAccount.setPassword(passwordEncoder.encode(password));
-        userAccount.setEnabled(true);
+        userAccount.setFirstName(firstName);
+        userAccount.setLastName(lastName);
+        userAccount.setEmail(email);
+        userAccount.setUsername(userName);
         userAccount.setUserGroup(userGroup);
         usersManagementRepository.saveOrUpdate(userAccount);
         return userAccount;
@@ -45,15 +47,18 @@ public class UsersManagementService implements IUsersManagementService {
     @Override
     @Transactional(readOnly = true)
     public UserAccount getUserAccountByLogin(String login) {
-        return usersManagementRepository.getUserAccountByLogin(login);
+        return usersManagementRepository.getUserAccountByUserName(login);
     }
 
-    public IUsersManagementRepository getUsersManagementRepository() {
-        return usersManagementRepository;
+    @Override
+    @Transactional(readOnly = true)
+    public UserConnection getUserConnectionById(Long id) {
+        return usersManagementRepository.getUserConnectionById(id);
     }
 
-    public void setUsersManagementRepository(IUsersManagementRepository usersManagementRepository) {
-        this.usersManagementRepository = usersManagementRepository;
+    @Override
+    @Transactional(readOnly = true)
+    public UserConnection getUserConnectionByAccount(UserAccount userAccount) {
+        return usersManagementRepository.getUserConnectionByAccount(userAccount);
     }
-
 }

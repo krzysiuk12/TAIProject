@@ -1,10 +1,12 @@
 package pl.edu.agh.repositories.implementations;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import pl.edu.agh.domain.UserAccount;
+import pl.edu.agh.domain.UserConnection;
 import pl.edu.agh.repositories.interfaces.IUsersManagementRepository;
 
 /**
@@ -29,7 +31,19 @@ public class UsersManagementRepository extends BaseHibernateRepository implement
     }
 
     @Override
-    public UserAccount getUserAccountByLogin(String name) {
-        return (UserAccount)getCurrentSession().createCriteria(UserAccount.class).add(Restrictions.eq("login", name)).list().get(0);
+    public UserAccount getUserAccountByUserName(String userName) {
+        return (UserAccount)getCurrentSession().createCriteria(UserAccount.class).add(Restrictions.eq("username", userName)).list().get(0);
+    }
+
+    @Override
+    public UserConnection getUserConnectionById(Long id) {
+        return (UserConnection) getCurrentSession().get(UserConnection.class, id);
+    }
+
+    @Override
+    public UserConnection getUserConnectionByAccount(UserAccount userAccount) {
+        Criteria criteria = getCurrentSession().createCriteria(UserConnection.class);
+        criteria.add(Restrictions.eq("userAccount", userAccount));
+        return (UserConnection) criteria.list().get(0);
     }
 }

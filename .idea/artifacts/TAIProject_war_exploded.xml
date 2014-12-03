@@ -51,12 +51,13 @@
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.6" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" />
-          <element id="library" level="project" name="Maven: org.springframework.social:spring-social-twitter:1.1.0.RELEASE" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.3.2" />
-          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-crypto:3.2.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-config:1.1.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-web:1.1.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.social:spring-social-core:1.1.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.social:spring-social-security:1.1.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.social:spring-social-twitter:1.1.0.RELEASE" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.3.2" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-crypto:3.2.3.RELEASE" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.3.2" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.3.2" />
         </element>

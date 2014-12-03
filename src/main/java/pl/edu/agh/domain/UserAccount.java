@@ -9,16 +9,20 @@ import javax.persistence.*;
 @Table(name = "USERACCOUNTS")
 public class UserAccount extends BaseObject {
 
-    private String login;
-    private String password;
-    private boolean enabled;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String username;
     private UserGroup userGroup;
 
     public UserAccount() {
     }
 
-    public UserAccount(String login, UserGroup userGroup) {
-        this.login = login;
+    public UserAccount(String firstName, String lastName, String email, String username, UserGroup userGroup) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.username = username;
         this.userGroup = userGroup;
     }
 
@@ -30,28 +34,36 @@ public class UserAccount extends BaseObject {
         return super.getId();
     }
 
-    @Column(name = "LOGIN", length = 50, nullable = false)
-    public String getLogin() {
-        return login;
+    @Column(name = "FIRSTNAME", length = 500, nullable = false)
+    public String getFirstName() {
+        return firstName;
     }
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    @Column(name = "PASSWORD", length = 60, nullable = false)
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    @Column(name = "ENABLED", nullable = false)
-    public boolean isEnabled() {
-        return enabled;
+    @Column(name = "LASTNAME", length = 500, nullable = false)
+    public String getLastName() {
+        return lastName;
     }
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    @Column(name = "EMAIL", length = 100, nullable = false)
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Column(name = "USERNAME", length = 100, nullable = false)
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Enumerated(EnumType.STRING)
