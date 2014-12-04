@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,6 @@ public class EventsController {
     private ITwitterService twitterService;
 
     @RequestMapping(method = RequestMethod.GET)
-    @Transactional
     public String listEvents(ModelMap model) {
         model.addAttribute("events", eventsManagementService.getAllEvents());
         model.addAttribute("event", new Event());
@@ -44,7 +42,6 @@ public class EventsController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @Transactional
     public String addEvent(@ModelAttribute("event") Event event, @RequestParam String hashtagsString, HttpServletRequest request, Principal currentUser, Model model) {
         HashSet<String> hashtags = new HashSet<String>(Arrays.asList(hashtagsString.split(" ")));
         event.setHashTags(hashtags);
@@ -61,7 +58,6 @@ public class EventsController {
     }
 
     @RequestMapping(value = "{eventId}", method = RequestMethod.GET)
-    @Transactional(readOnly = true)
     public String showEventDetails(ModelMap model, @PathVariable("eventId") Long eventId) {
 
         Event event = eventsManagementService.getEventById(eventId);
@@ -81,7 +77,6 @@ public class EventsController {
     }
 
     @RequestMapping(value = "{eventId}/comments", method = RequestMethod.POST)
-    @Transactional
     public String addEventComment(@PathVariable("eventId") Long eventId, @ModelAttribute("comment") Comment comment, HttpServletRequest request, Principal currentUser, Model model) {
 
         Event event = eventsManagementService.getEventById(eventId);
