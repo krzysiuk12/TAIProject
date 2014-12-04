@@ -1,4 +1,4 @@
-package pl.edu.agh.controllers;
+package pl.edu.agh.controllers.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.WebAttributes;

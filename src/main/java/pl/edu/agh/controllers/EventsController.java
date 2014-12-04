@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.controllers.utils.SocialContollerUtils;
 import pl.edu.agh.domain.Comment;
 import pl.edu.agh.domain.Event;
 import pl.edu.agh.domain.Rating;

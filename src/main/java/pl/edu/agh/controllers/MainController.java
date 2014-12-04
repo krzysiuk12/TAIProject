@@ -7,10 +7,8 @@ import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.social.twitter.api.SearchResults;
-import org.springframework.social.twitter.api.Tweet;
-import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +17,7 @@ import pl.edu.agh.services.interfaces.ITwitterService;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.security.Principal;
 
 @Controller
 public class MainController {
@@ -32,45 +30,45 @@ public class MainController {
     }
 
     @RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
-	public ModelAndView defaultPage() {
+	public ModelAndView defaultPage(HttpServletRequest request, Principal currentUser, Model model) {
 
-		ModelAndView model = new ModelAndView();
-//        usersManagementService.addNewUser("TestLogin" + Math.abs(new Random().nextInt()), "123456", UserGroup.CREATOR);
+		ModelAndView modelAndView = new ModelAndView();
+//        usersManagementService.addNewUserAccount("TestLogin" + Math.abs(new Random().nextInt()), "123456", UserGroup.CREATOR);
 
-        model.addObject("title", "Spring Security + Hibernate Example");
-		model.addObject("message", "This is default page!");
-		model.setViewName("hello");
-		return model;
+        modelAndView.addObject("title", "Spring Security + Hibernate Example");
+		modelAndView.addObject("message", "This is default page!");
+		modelAndView.setViewName("hello");
+		return modelAndView;
 
 	}
 
 	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
-	public ModelAndView adminPage() {
+	public ModelAndView adminPage(HttpServletRequest request, Principal currentUser, Model model) {
 
-		ModelAndView model = new ModelAndView();
-		model.addObject("title", "Spring Security + Hibernate Example");
-		model.addObject("message", "This page is for ROLE_ADMIN only!");
-		model.setViewName("admin");
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("title", "Spring Security + Hibernate Example");
+		modelAndView.addObject("message", "This page is for ROLE_ADMIN only!");
+		modelAndView.setViewName("admin");
 
-		return model;
+		return modelAndView;
 
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
+			@RequestParam(value = "logout", required = false) String logout, HttpServletRequest request, Principal currentUser, Model model) {
 
-		ModelAndView model = new ModelAndView();
+		ModelAndView modelAndView = new ModelAndView();
 		if (error != null) {
-			model.addObject("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
+			modelAndView.addObject("error", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
 
 		if (logout != null) {
-			model.addObject("msg", "You've been logged out successfully.");
+			modelAndView.addObject("msg", "You've been logged out successfully.");
 		}
-		model.setViewName("login");
+		modelAndView.setViewName("login");
 
-		return model;
+		return modelAndView;
 
 	}
 

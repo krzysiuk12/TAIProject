@@ -4,9 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.edu.agh.domain.UserAccount;
-import pl.edu.agh.domain.UserConnection;
-import pl.edu.agh.domain.UserGroup;
+import pl.edu.agh.domain.*;
 import pl.edu.agh.repositories.interfaces.IUsersManagementRepository;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
 
@@ -27,7 +25,7 @@ public class UsersManagementService implements IUsersManagementService {
 
     @Override
     @Transactional
-    public UserAccount addNewUser(String userId, String firstName, String lastName, String email, String userName, UserGroup userGroup) {
+    public UserAccount addNewUserAccount(String userId, String firstName, String lastName, String email, String userName, UserGroup userGroup) {
         UserAccount userAccount = new UserAccount();
         userAccount.setUserId(userId);
         userAccount.setFirstName(firstName);
@@ -61,5 +59,29 @@ public class UsersManagementService implements IUsersManagementService {
     @Transactional(readOnly = true)
     public UserConnection getUserConnectionByUserId(String userId) {
         return usersManagementRepository.getUserConnectionByUserId(userId);
+    }
+
+    @Override
+    @Transactional
+    public User addNewUser(String username, String password, boolean enabled) {
+        User user = new User(username, password, enabled);
+        usersManagementRepository.saveOrUpdate(user);
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public Authority addNewAuthority(String username, String authority) {
+        Authority authorityResult = new Authority(username, authority);
+        usersManagementRepository.saveOrUpdate(authorityResult);
+        return authorityResult;
+    }
+
+    @Override
+    @Transactional
+    public UserRole addNewUserRole(String username, String role) {
+        UserRole userRole = new UserRole(username, role);
+        usersManagementRepository.saveOrUpdate(userRole);
+        return userRole;
     }
 }
