@@ -9,13 +9,13 @@ import pl.edu.agh.domain.UserGroup;
  */
 public interface IUsersManagementService {
 
-    public UserAccount addNewUser(String firstName, String lastName, String email, String userName, UserGroup userGroup);
+    public UserAccount addNewUser(String userId, String firstName, String lastName, String email, String userName, UserGroup userGroup);
 
     public UserAccount getUserAccountById(Long id);
 
-    public UserAccount getUserAccountByLogin(String login);
+    public UserAccount getUserAccountByUserId(String userId);
 
     public UserConnection getUserConnectionById(Long id);
 
-    public UserConnection getUserConnectionByAccount(UserAccount userAccount);
+    public UserConnection getUserConnectionByUserId(String userId);
 }

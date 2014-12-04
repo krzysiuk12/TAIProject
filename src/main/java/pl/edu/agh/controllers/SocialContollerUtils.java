@@ -25,16 +25,16 @@ public class SocialContollerUtils {
     private IUsersManagementService usersManagementService;
 
     public void setModel(HttpServletRequest request, Principal currentUser, Model model) {
-        Long id = currentUser != null ? null : Long.parseLong(currentUser.getName());
+        String userId = currentUser != null ? null : currentUser.getName();
         String path = request.getRequestURI();
         HttpSession session = request.getSession();
 
         UserConnection connection = null;
         UserAccount account = null;
 
-        if(id != null) {
-            account = getUserAccount(session, id);
-            connection = getUserConnection(session, account);
+        if(userId != null) {
+            account = getUserAccount(session, userId);
+            connection = getUserConnection(session, userId);
         }
 
         Throwable exception = (Throwable)session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
@@ -45,19 +45,19 @@ public class SocialContollerUtils {
 
     }
 
-    private UserAccount getUserAccount(HttpSession session, Long id) {
+    private UserAccount getUserAccount(HttpSession session, String userId) {
         UserAccount account = (UserAccount) session.getAttribute(SESSION_USER_ACCOUNT);
-        if(account == null || (account != null && !account.getId().equals(id))) {
-            account = usersManagementService.getUserAccountById(id);
+        if(account == null || !account.getUserId().equals(userId)) {
+            account = usersManagementService.getUserAccountByUserId(userId);
             session.setAttribute(SESSION_USER_ACCOUNT, account);
         }
         return account;
     }
 
-    private UserConnection getUserConnection(HttpSession session, UserAccount userAccount) {
+    private UserConnection getUserConnection(HttpSession session, String userId) {
         UserConnection connection = (UserConnection) session.getAttribute(SESSION_USER_CONNECTION);
-        if(connection == null || (userAccount != null && !connection.getUserAccount().getId().equals(userAccount.getId()))) {
-            connection = usersManagementService.getUserConnectionByAccount(userAccount);
+        if(connection == null || !connection.getUserId().equals(userId)) {
+            connection = usersManagementService.getUserConnectionByUserId(userId);
             session.setAttribute(SESSION_USER_CONNECTION, connection);
         }
         return connection;

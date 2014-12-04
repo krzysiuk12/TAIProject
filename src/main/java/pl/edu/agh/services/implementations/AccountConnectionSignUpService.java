@@ -9,6 +9,8 @@ import pl.edu.agh.domain.UserAccount;
 import pl.edu.agh.domain.UserGroup;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
 
+import java.util.UUID;
+
 /**
  * Created by Krzysztof Kicinger on 2014-12-03.
  */
@@ -25,7 +27,7 @@ public class AccountConnectionSignUpService implements ConnectionSignUp {
     @Override
     public String execute(Connection<?> connection) {
         UserProfile userProfile = connection.fetchUserProfile();
-        UserAccount userAccount = usersManagementService.addNewUser(userProfile.getFirstName(), userProfile.getLastName(), userProfile.getEmail(), userProfile.getUsername(), UserGroup.BOTH);
-        return userAccount.getId().toString();
+        UserAccount userAccount = usersManagementService.addNewUser(UUID.randomUUID().toString(), userProfile.getFirstName(), userProfile.getLastName(), userProfile.getEmail(), userProfile.getUsername(), UserGroup.BOTH);
+        return userAccount.getUserId();
     }
 }

@@ -6,52 +6,58 @@ import javax.persistence.*;
  * Created by Krzysztof Kicinger on 2014-12-03.
  */
 @Entity
-@Table(name = "USERCONNECTIONS")
+@Table(name = "USERCONNECTION")
 public class UserConnection extends BaseObject {
 
-    private UserAccount userAccount;
+    private String userId;
     private String providerId;
+    private String providerUserId;
+    private int rank;
     private String sessionId;
     private String displayName;
     private String profileUrl;
     private String imageUrl;
     private String accessToken;
-    private String accessTokenSecret;
+    private String secret;
     private String refreshToken;
+    private Long expireTime;
 
     public UserConnection() {
     }
 
-    public UserConnection(UserAccount userAccount, String providerId, String sessionId, String displayName, String profileUrl, String imageUrl, String accessToken, String accessTokenSecret, String refreshToken) {
-        this.userAccount = userAccount;
+    public UserConnection(String userId, String providerId, String providerUserId, int rank, String sessionId, String displayName, String profileUrl, String imageUrl, String accessToken, String accessTokenSecret, String refreshToken, Long expireTime) {
+        this.userId = userId;
         this.providerId = providerId;
+        this.providerUserId = providerUserId;
+        this.rank = rank;
         this.sessionId = sessionId;
         this.displayName = displayName;
         this.profileUrl = profileUrl;
         this.imageUrl = imageUrl;
         this.accessToken = accessToken;
-        this.accessTokenSecret = accessTokenSecret;
+        this.secret = accessTokenSecret;
         this.refreshToken = refreshToken;
+        this.expireTime = expireTime;
     }
 
-    @Override
+/*    @Override
     @Id
     @GeneratedValue(generator = "PK_USERCONNECTIONS", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "PK_USERCONNECTIONS", sequenceName = "PK_USERCONNECTIONS", initialValue = 1, allocationSize = 1)
     public Long getId() {
         return super.getId();
+    }*/
+
+    @Id
+    @Column(name = "USERID", length = 60)
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ID_USERACCOUNT", foreignKey = @ForeignKey(name = "FK_USERCONNECTION_USERACCOUNT_USER"), nullable = false)
-    public UserAccount getUserAccount() {
-        return userAccount;
-    }
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
-    }
-
-    @Column(name = "PROVIDERID", length = 60, nullable = false)
+    @Column(name = "PROVIDERID", length = 60)
     public String getProviderId() {
         return providerId;
     }
@@ -59,7 +65,23 @@ public class UserConnection extends BaseObject {
         this.providerId = providerId;
     }
 
-    @Column(name = "DISPLAYNAME", length = 100, nullable = false)
+    @Column(name = "PROVIDERUSERID", length = 60)
+    public String getProviderUserId() {
+        return providerUserId;
+    }
+    public void setProviderUserId(String providerUserId) {
+        this.providerUserId = providerUserId;
+    }
+
+    @Column(name = "RANK", length = 60)
+    public int getRank() {
+        return rank;
+    }
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    @Column(name = "DISPLAYNAME", length = 100)
     public String getDisplayName() {
         return displayName;
     }
@@ -75,7 +97,7 @@ public class UserConnection extends BaseObject {
         this.profileUrl = profileUrl;
     }
 
-    @Column(name = "ACCESSTOKEN", length = 60, nullable = false)
+    @Column(name = "ACCESSTOKEN", length = 60)
     public String getAccessToken() {
         return accessToken;
     }
@@ -83,12 +105,12 @@ public class UserConnection extends BaseObject {
         this.accessToken = accessToken;
     }
 
-    @Column(name = "ACCESSTOKENSECRET", length = 60, nullable = false)
-    public String getAccessTokenSecret() {
-        return accessTokenSecret;
+    @Column(name = "SECRET", length = 60)
+    public String getSecret() {
+        return secret;
     }
-    public void setAccessTokenSecret(String accessTokenSecret) {
-        this.accessTokenSecret = accessTokenSecret;
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 
     @Column(name = "REFRESHTOKEN", length = 60)
@@ -113,5 +135,13 @@ public class UserConnection extends BaseObject {
     }
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Column(name = "EXPIRETIME", length = 200)
+    public Long getExpireTime() {
+        return expireTime;
+    }
+    public void setExpireTime(Long expireTime) {
+        this.expireTime = expireTime;
     }
 }

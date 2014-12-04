@@ -31,8 +31,8 @@ public class UsersManagementRepository extends BaseHibernateRepository implement
     }
 
     @Override
-    public UserAccount getUserAccountByUserName(String userName) {
-        return (UserAccount)getCurrentSession().createCriteria(UserAccount.class).add(Restrictions.eq("username", userName)).list().get(0);
+    public UserAccount getUserAccountByUserId(String userId) {
+        return (UserAccount)getCurrentSession().createCriteria(UserAccount.class).add(Restrictions.eq("userId", userId)).list().get(0);
     }
 
     @Override
@@ -41,9 +41,9 @@ public class UsersManagementRepository extends BaseHibernateRepository implement
     }
 
     @Override
-    public UserConnection getUserConnectionByAccount(UserAccount userAccount) {
+    public UserConnection getUserConnectionByUserId(String userId) {
         Criteria criteria = getCurrentSession().createCriteria(UserConnection.class);
-        criteria.add(Restrictions.eq("userAccount", userAccount));
+        criteria.add(Restrictions.eq("userId", userId));
         return (UserConnection) criteria.list().get(0);
     }
 }

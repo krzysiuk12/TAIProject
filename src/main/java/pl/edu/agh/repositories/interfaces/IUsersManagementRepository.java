@@ -8,10 +8,10 @@ import pl.edu.agh.domain.UserConnection;
  */
 public interface IUsersManagementRepository extends IBaseHibernateRepository<UserAccount> {
 
-    public UserAccount getUserAccountByUserName(String userName);
+    public UserAccount getUserAccountByUserId(String userId);
 
     public UserConnection getUserConnectionById(Long id);
 
-    public UserConnection getUserConnectionByAccount(UserAccount userAccount);
+    public UserConnection getUserConnectionByUserId(String userId);
 
 }

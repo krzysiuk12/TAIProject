@@ -27,8 +27,9 @@ public class UsersManagementService implements IUsersManagementService {
 
     @Override
     @Transactional
-    public UserAccount addNewUser(String firstName, String lastName, String email, String userName, UserGroup userGroup) {
+    public UserAccount addNewUser(String userId, String firstName, String lastName, String email, String userName, UserGroup userGroup) {
         UserAccount userAccount = new UserAccount();
+        userAccount.setUserId(userId);
         userAccount.setFirstName(firstName);
         userAccount.setLastName(lastName);
         userAccount.setEmail(email);
@@ -46,8 +47,8 @@ public class UsersManagementService implements IUsersManagementService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserAccount getUserAccountByLogin(String login) {
-        return usersManagementRepository.getUserAccountByUserName(login);
+    public UserAccount getUserAccountByUserId(String userId) {
+        return usersManagementRepository.getUserAccountByUserId(userId);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class UsersManagementService implements IUsersManagementService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserConnection getUserConnectionByAccount(UserAccount userAccount) {
-        return usersManagementRepository.getUserConnectionByAccount(userAccount);
+    public UserConnection getUserConnectionByUserId(String userId) {
+        return usersManagementRepository.getUserConnectionByUserId(userId);
     }
 }

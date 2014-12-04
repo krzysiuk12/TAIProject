@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Table(name = "USERACCOUNTS")
 public class UserAccount extends BaseObject {
 
+    private String userId;
     private String firstName;
     private String lastName;
     private String email;
@@ -34,7 +35,15 @@ public class UserAccount extends BaseObject {
         return super.getId();
     }
 
-    @Column(name = "FIRSTNAME", length = 500, nullable = false)
+    @Column(name = "USERID", length = 100)
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Column(name = "FIRSTNAME", length = 500)
     public String getFirstName() {
         return firstName;
     }
@@ -42,7 +51,7 @@ public class UserAccount extends BaseObject {
         this.firstName = firstName;
     }
 
-    @Column(name = "LASTNAME", length = 500, nullable = false)
+    @Column(name = "LASTNAME", length = 500)
     public String getLastName() {
         return lastName;
     }
@@ -50,7 +59,7 @@ public class UserAccount extends BaseObject {
         this.lastName = lastName;
     }
 
-    @Column(name = "EMAIL", length = 100, nullable = false)
+    @Column(name = "EMAIL", length = 100)
     public String getEmail() {
         return email;
     }
@@ -58,7 +67,7 @@ public class UserAccount extends BaseObject {
         this.email = email;
     }
 
-    @Column(name = "USERNAME", length = 100, nullable = false)
+    @Column(name = "USERNAME", length = 100)
     public String getUsername() {
         return username;
     }
@@ -67,7 +76,7 @@ public class UserAccount extends BaseObject {
     }
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "USERGROUP", length = 50, nullable = false)
+    @Column(name = "USERGROUP", length = 50)
     public UserGroup getUserGroup() {
         return userGroup;
     }
