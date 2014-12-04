@@ -8,7 +8,12 @@
 
 	<a href="/events" method="get">Events</a>
 
-	<sec:authorize access="hasRole('ROLE_USER')">
+    <p>
+    <form method="POST" action="/logout">
+        <button>Logout</button>
+    </form>
+    </p>
+	<sec:authorize access="hasRole('USER')">
 		<!-- For login user -->
 		<c:url value="/logout" var="logoutUrl" />
 		<form action="${logoutUrl}" method="post" id="logoutForm">
@@ -20,14 +25,6 @@
 				document.getElementById("logoutForm").submit();
 			}
 		</script>
-
-		<c:if test="${pageContext.request.userPrincipal.name != null}">
-			<h2>
-				User : ${pageContext.request.userPrincipal.name} | <a
-					href="javascript:formSubmit()"> Logout</a>
-			</h2>
-		</c:if>
-
 
 	</sec:authorize>
 </body>

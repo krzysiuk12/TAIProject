@@ -31,25 +31,10 @@ public class MainController {
 
     @RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
 	public ModelAndView defaultPage(HttpServletRequest request, Principal currentUser, Model model) {
-
 		ModelAndView modelAndView = new ModelAndView();
-//        usersManagementService.addNewUserAccount("TestLogin" + Math.abs(new Random().nextInt()), "123456", UserGroup.CREATOR);
-
-        modelAndView.addObject("title", "Spring Security + Hibernate Example");
-		modelAndView.addObject("message", "This is default page!");
+        modelAndView.addObject("title", "MAIN PAGE");
+		modelAndView.addObject("message", "Successfully logged in using twitter");
 		modelAndView.setViewName("hello");
-		return modelAndView;
-
-	}
-
-	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
-	public ModelAndView adminPage(HttpServletRequest request, Principal currentUser, Model model) {
-
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("title", "Spring Security + Hibernate Example");
-		modelAndView.addObject("message", "This page is for ROLE_ADMIN only!");
-		modelAndView.setViewName("admin");
-
 		return modelAndView;
 
 	}

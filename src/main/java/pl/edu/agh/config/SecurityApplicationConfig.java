@@ -75,6 +75,7 @@ public class SecurityApplicationConfig extends WebSecurityConfigurerAdapter {
                 .apply(new SpringSocialConfigurer()
                         .postLoginUrl("/")
                         .alwaysUsePostLoginUrl(true));
+        http.csrf().disable().authorizeRequests();
     }
 
     @Bean
