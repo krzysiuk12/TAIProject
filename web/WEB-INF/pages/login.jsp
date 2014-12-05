@@ -8,6 +8,6 @@
 </head>
 
 <body>
-<a href="http://my.host.org:8080/auth/twitter">Twitter</a>
+<a href="/auth/twitter">Twitter</a>
 </body>
 </html>
