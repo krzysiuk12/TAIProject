@@ -1,7 +1,11 @@
 package pl.edu.agh.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.support.OAuth1Connection;
+import org.springframework.social.security.SocialAuthenticationToken;
 import org.springframework.social.security.SocialUser;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Twitter;
@@ -37,6 +41,8 @@ public class EventsController {
     private IEventsManagementService eventsManagementService;
     @Autowired
     private ITwitterService twitterService;
+    @Autowired
+    private Environment environment;
 
     @RequestMapping(method = RequestMethod.GET)
     public String listEvents(ModelMap model, HttpServletRequest request) {
@@ -89,12 +95,18 @@ public class EventsController {
     public String addEventComment(@PathVariable("eventId") Long eventId, @ModelAttribute("comment") Comment comment, HttpServletRequest request) {
 
         Event event = eventsManagementService.getEventById(eventId);
-        UserAccount userAccount = usersManagementService.getCurrentUser(request);
+        SocialAuthenticationToken socialUserAuthentication = (SocialAuthenticationToken) ((SecurityContextImpl)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication();
 
         if (comment.isPrivateComment()) {
+            SocialUser socialUser = (SocialUser) socialUserAuthentication.getPrincipal();
+            UserAccount userAccount = usersManagementService.getUserAccountByUserId(socialUser.getUsername());
             eventsManagementService.addNewComment(event, comment, userAccount);
         } else {
-            eventsManagementService.publishComment(event, comment, userAccount);
+            OAuth1Connection connection = (OAuth1Connection) socialUserAuthentication.getConnection();
+            Twitter twitter = ((Connection<Twitter>)connection).getApi();
+
+            String tweetContent = "Oceniam " + event.getHashtagsString(" ") + " na " + comment.getRating().getValue() + ". " + comment.getComment();
+            twitter.timelineOperations().updateStatus(tweetContent);
         }
 
         return "redirect:/events/" + event.getId();
