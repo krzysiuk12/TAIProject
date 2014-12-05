@@ -27,5 +27,5 @@ public interface IEventsManagementService {
 
     public List<Comment> getEventComments(Event event);
 
-    public void publishComment(Event event, Comment comment);
+    public void publishComment(Event event, Comment comment, UserAccount userAccount);
 }

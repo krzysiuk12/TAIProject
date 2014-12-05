@@ -1,6 +1,8 @@
 package pl.edu.agh.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.social.security.SocialUser;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.stereotype.Controller;
@@ -46,7 +48,8 @@ public class EventsController {
     public String addEvent(@ModelAttribute("event") Event event, @RequestParam String hashtagsString, HttpServletRequest request, Principal currentUser, Model model) {
         HashSet<String> hashtags = new HashSet<String>(Arrays.asList(hashtagsString.split(" ")));
         event.setHashTags(hashtags);
-        UserAccount userAccount = (UserAccount) request.getSession().getAttribute(SocialContollerUtils.SESSION_USER_ACCOUNT);
+        SocialUser socialUser = (SocialUser) ((SecurityContextImpl)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication().getPrincipal();
+        UserAccount userAccount = usersManagementService.getUserAccountByUserId(socialUser.getUsername());
         eventsManagementService.addNewEvent(event, userAccount);
         return "redirect:/events";
     }
@@ -81,12 +84,13 @@ public class EventsController {
     public String addEventComment(@PathVariable("eventId") Long eventId, @ModelAttribute("comment") Comment comment, HttpServletRequest request, Principal currentUser, Model model) {
 
         Event event = eventsManagementService.getEventById(eventId);
+        SocialUser socialUser = (SocialUser) ((SecurityContextImpl)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication().getPrincipal();
+        UserAccount userAccount = usersManagementService.getUserAccountByUserId(socialUser.getUsername());
 
         if (comment.isPrivateComment()) {
-            UserAccount userAccount = (UserAccount) request.getSession().getAttribute(SocialContollerUtils.SESSION_USER_ACCOUNT);
             eventsManagementService.addNewComment(event, comment, userAccount);
         } else {
-            eventsManagementService.publishComment(event, comment);
+            eventsManagementService.publishComment(event, comment, userAccount);
         }
 
         return "redirect:/events/" + event.getId();

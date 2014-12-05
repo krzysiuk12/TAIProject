@@ -66,9 +66,9 @@ public class EventsManagementService implements IEventsManagementService {
     }
 
     @Override
-    public void publishComment(Event event, Comment comment) {
+    public void publishComment(Event event, Comment comment, UserAccount userAccount) {
         String text = "Oceniam " + event.getHashtagsString(" ") + " na " + comment.getRating().getValue() + ". " + comment.getComment();
-        System.out.println("WYSYLAM DO TWITTERA: " + text);
+        System.out.println("WYSYLAM DO TWITTERA! Od " + userAccount.getFirstName() + ":" + text);
     }
 
     @Override
