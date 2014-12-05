@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.social.security.SocialUser;
 import org.springframework.social.twitter.api.SearchResults;
 import org.springframework.social.twitter.api.Twitter;
+import org.springframework.social.twitter.api.impl.TwitterTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -74,12 +75,12 @@ public class EventsController {
         model.addAttribute("comment", new Comment());
         model.addAttribute("ratings", Rating.values());
 
-//        if (event.getHashTags().size() > 0) {
-//            Twitter twitter = twitterService.getTwitterTemplate();
-//            String searchQuery = event.getHashtagsString(" OR ");
-//            SearchResults results = twitter.searchOperations().search(searchQuery, 10);
-//            model.addAttribute("tweets", results.getTweets());
-//        }
+        if (event.getHashTags().size() > 0) {
+            Twitter twitter = twitterService.getTwitterTemplate();
+            String searchQuery = event.getHashtagsString(" OR ");
+            SearchResults results = twitter.searchOperations().search(searchQuery, 10);
+            model.addAttribute("tweets", results.getTweets());
+        }
 
         return "eventDetails";
     }

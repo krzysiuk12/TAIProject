@@ -21,7 +21,7 @@ public class TwitterService implements ITwitterService {
 
     public Twitter getTwitterTemplate() {
         if(twitterTemplate == null) {
-            twitterTemplate = new TwitterTemplate(getCustomerKey(), getCustomerSecret(), getAccessToken(), getAccessTokenSecret());
+            twitterTemplate = new TwitterTemplate(getCustomerKey(), getCustomerSecret());
         }
         return twitterTemplate;
     }
