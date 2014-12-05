@@ -1,12 +1,16 @@
 package pl.edu.agh.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.social.security.SocialUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.agh.domain.*;
 import pl.edu.agh.repositories.interfaces.IUsersManagementRepository;
 import pl.edu.agh.services.interfaces.IUsersManagementService;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Krzysztof Kicinger on 2014-11-24.
@@ -83,5 +87,13 @@ public class UsersManagementService implements IUsersManagementService {
         UserRole userRole = new UserRole(username, role);
         usersManagementRepository.saveOrUpdate(userRole);
         return userRole;
+    }
+
+    @Override
+    @Transactional
+    public UserAccount getCurrentUser(HttpServletRequest request) {
+        SocialUser socialUser = (SocialUser) ((SecurityContextImpl)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication().getPrincipal();
+        UserAccount userAccount = getUserAccountByUserId(socialUser.getUsername());
+        return userAccount;
     }
 }

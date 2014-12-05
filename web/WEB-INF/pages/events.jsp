@@ -18,6 +18,8 @@
   <div class="row">
     <div class="span8 offset2">
 
+      <h1>Logged in as : ${currentUser.firstName}  ${currentUser.lastName}</h1>
+
       <a href="/" method="get">Homepage</a>
 
       <h2>Add event</h2>

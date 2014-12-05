@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +35,7 @@ public class MainController {
 		ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("title", "MAIN PAGE");
 		modelAndView.addObject("message", "Successfully logged in using twitter");
+		modelAndView.addObject("currentUser", usersManagementService.getCurrentUser(request));
 		modelAndView.setViewName("hello");
 		return modelAndView;
 

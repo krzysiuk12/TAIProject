@@ -18,12 +18,14 @@
   <div class="row">
     <div class="span8 offset2">
 
+      <h1>Logged in as : ${currentUser.firstName}  ${currentUser.lastName}</h1>
+
       <a href="/events" method="get">Back</a>
 
       <h1>${event.title} - event details</h1>
       <h3>Description: ${event.description}</h3>
       <h3>Date: ${event.date}</h3>
-      <h3>Author: ${event.creator.login}</h3>
+      <h3>Author: ${event.creator.firstName} ${event.creator.lastName}</h3>
       <h3>Hashtags: ${event.getHashtagsString(", ")}</h3>
       <h3>Rating: ${event.getEventRating()}</h3>
 
@@ -40,7 +42,7 @@
           <tbody>
           <c:forEach items="${comments}" var="comment">
             <tr>
-              <td>${comment.commenter.login}</td>
+              <td>${comment.commenter.firstName} ${comment.commenter.lastName}</td>
               <td>${comment.comment}</td>
               <td>${comment.rating.value}</td>
             </tr>

@@ -2,6 +2,8 @@ package pl.edu.agh.services.interfaces;
 
 import pl.edu.agh.domain.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by Krzysztof Kicinger on 2014-11-24.
  */
@@ -22,4 +24,6 @@ public interface IUsersManagementService {
     public Authority addNewAuthority(String username, String authority);
 
     public UserRole addNewUserRole(String username, String role);
+
+    public UserAccount getCurrentUser(HttpServletRequest request);
 }
