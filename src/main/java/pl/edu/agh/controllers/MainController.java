@@ -33,8 +33,7 @@ public class MainController {
     @RequestMapping(value = { "/", "/welcome**" }, method = RequestMethod.GET)
 	public ModelAndView defaultPage(HttpServletRequest request, Principal currentUser, Model model) {
 		ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("title", "MAIN PAGE");
-		modelAndView.addObject("message", "Successfully logged in using twitter");
+		modelAndView.addObject("message", "Successfully signed in!");
 		modelAndView.addObject("currentUser", usersManagementService.getCurrentUser(request));
 		modelAndView.setViewName("hello");
 		return modelAndView;
@@ -51,7 +50,7 @@ public class MainController {
 		}
 
 		if (logout != null) {
-			modelAndView.addObject("msg", "You've been logged out successfully.");
+			modelAndView.addObject("msg", "Successfully signed out!");
 		}
 		modelAndView.setViewName("login");
 

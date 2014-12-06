@@ -1,34 +1,46 @@
 <%@taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+		  uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Event Feedback Tracking</title>
+
+	<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+</head>
+
 <body>
 
-	<h1>Logged in as : ${currentUser.firstName}  ${currentUser.lastName}</h1>
+<div class="navbar navbar-default">
+	<div class="container">
+		<div class="navbar-header">
+			<a class="navbar-brand" href="/">Event Feedback Tracking</a>
+		</div>
 
-	<h1>Title : ${title}</h1>
-	<h1>Message : ${message}</h1>
+		<div class="navbar-collapse collapse" id="navbar-main">
+			<div class="nav navbar-nav">
+				<li>
+					<a href="/events">Your events</a>
+				</li>
+			</div>
+			<div class="nav navbar-nav navbar-right">
+				<li>
+					<p class="navbar-text">Signed in as: ${currentUser.firstName}  ${currentUser.lastName}</p>
+				</li>
+				<li>
+					<a data-method="POST" href="/logout">Sign out</a>
+				</li>
+			</div>
+		</div>
+	</div>
+</div>
 
-	<a href="/events" method="get">Events</a>
+<div class="container">
+	<h2>${message}</h2>
+</div>
 
-    <p>
-    <form method="POST" action="/logout">
-        <button>Logout</button>
-    </form>
-    </p>
-	<sec:authorize access="hasRole('USER')">
-		<!-- For login user -->
-		<c:url value="/logout" var="logoutUrl" />
-		<form action="${logoutUrl}" method="post" id="logoutForm">
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
-		</form>
-		<script>
-			function formSubmit() {
-				document.getElementById("logoutForm").submit();
-			}
-		</script>
-
-	</sec:authorize>
 </body>
 </html>
