@@ -48,7 +48,7 @@ public class EventManagementServiceTest {
 
     @Test
     public void getEventByIdTest() throws Exception {
-        Event event = new Event(userAccount, "EventTitle", "EventDescription", new Date().toString(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
+        Event event = new Event(userAccount, "EventTitle", "EventDescription", new Date(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
         eventsManagementService.addNewEvent(event, userAccount);
         Event testEvent = eventsManagementService.getEventById(event.getId());
         assertNotNull(testEvent);
@@ -60,7 +60,7 @@ public class EventManagementServiceTest {
         List<Event> events = eventsManagementService.getAllEvents();
         assertNotNull(events);
         UserAccount userAccount = usersManagementService.addNewUserAccount("JanKowalskiId", "Jan", "Kowalski", "jan@email.com", "JanKowalski", UserGroup.BOTH);
-        Event event = new Event(userAccount, "EventTitle", "EventDescription", new Date().toString(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
+        Event event = new Event(userAccount, "EventTitle", "EventDescription", new Date(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
         eventsManagementService.addNewEvent(event, userAccount);
         List<Event> events2 = eventsManagementService.getAllEvents();
         assertEquals(events.size() + 1, events2.size());
@@ -68,7 +68,7 @@ public class EventManagementServiceTest {
 
     @Test
     public void addNewCommentTest() {
-        Event event = new Event(userAccount, "EventTitle", "EventDescription", new Date().toString(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
+        Event event = new Event(userAccount, "EventTitle", "EventDescription", new Date(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
         eventsManagementService.addNewEvent(event, userAccount);
         Comment comment = new Comment(event, userAccount, Rating.GOOD, "My Simple Private Comment", true);
         eventsManagementService.addNewComment(event, comment, userAccount);
@@ -82,7 +82,7 @@ public class EventManagementServiceTest {
 
     @Test
     public void removeEventTest() throws Exception {
-        Event event = new Event(userAccount, "EventTitle", "EventDescription", new Date().toString(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
+        Event event = new Event(userAccount, "EventTitle", "EventDescription", new Date(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
         eventsManagementService.addNewEvent(event, userAccount);
         List<Event> events = eventsManagementService.getAllEvents();
         eventsManagementService.removeEvent(event);
@@ -93,9 +93,9 @@ public class EventManagementServiceTest {
 
     @Test
     public void getAllCreatorEventsTest() throws Exception {
-        Event event = new Event(userAccount, "EventTitle", "EventDescription", new Date().toString(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
+        Event event = new Event(userAccount, "EventTitle", "EventDescription", new Date(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
         eventsManagementService.addNewEvent(event, userAccount);
-        Event event2 = new Event(userAccount, "EventTitle", "EventDescription", new Date().toString(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
+        Event event2 = new Event(userAccount, "EventTitle", "EventDescription", new Date(), "http://testUrl/1", new HashSet<String>(Arrays.asList("Tag1", "Tag2")), new ArrayList<Comment>());
         eventsManagementService.addNewEvent(event2, userAccount);
         List<Event> events = eventsManagementService.getAllCreatorEvents(userAccount);
         assertEquals(events.size(), 2);

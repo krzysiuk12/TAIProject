@@ -2,13 +2,11 @@ package pl.edu.agh.domain;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.persistence.*;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -26,7 +24,7 @@ public class Event extends BaseObject {
     private UserAccount creator;
     private String title;
     private String description;
-    private String date;
+    private Date date;
     private String url;
     private Set<String> hashTags;
     private List<Comment> comments;
@@ -34,7 +32,7 @@ public class Event extends BaseObject {
     public Event() {
     }
 
-    public Event(UserAccount creator, String title, String description, String date, String url, Set<String> hashTags, List<Comment> comments) {
+    public Event(UserAccount creator, String title, String description, Date date, String url, Set<String> hashTags, List<Comment> comments) {
         this.creator = creator;
         this.title = title;
         this.description = description;
@@ -77,11 +75,12 @@ public class Event extends BaseObject {
         this.description = description;
     }
 
-    @Column(name = "DATE", length = 500, nullable = false)
-    public String getDate() {
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "DATE", nullable = false)
+    public Date getDate() {
         return date;
     }
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
