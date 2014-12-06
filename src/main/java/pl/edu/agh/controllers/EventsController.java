@@ -62,8 +62,13 @@ public class EventsController {
     }
 
     @RequestMapping(value = "delete/{eventId}")
-    public String deleteEvent(@PathVariable("eventId") Long eventId) {
-        eventsManagementService.removeEvent(eventsManagementService.getEventById(eventId));
+    public String deleteEvent(@PathVariable("eventId") Long eventId, HttpServletRequest request) {
+        Event event = eventsManagementService.getEventById(eventId);
+        UserAccount currentUser = usersManagementService.getCurrentUser(request);
+
+        if (event.getCreator().getUserId().equals(currentUser.getUserId())) {
+            eventsManagementService.removeEvent(eventsManagementService.getEventById(eventId));
+        }
         return "redirect:/events";
     }
 
